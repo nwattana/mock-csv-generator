@@ -14,5 +14,6 @@ run-basic:
 	docker run --rm -v $(PWD):/app csv-generator
 
 run:
-	docker run --rm -v $(PWD):/app --user $(USERID):$(GROUPID) csv-generator
+	mkdir -p $(PWD)/output
+	docker run --rm -v $(PWD)/output:/app/output --user $(USERID):$(GROUPID) csv-generator
 	# sudo chown $(USER):$(USER) -R $(PWD)/output
