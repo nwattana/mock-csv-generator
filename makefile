@@ -1,4 +1,5 @@
 PWD = $(shell pwd)
+WHOAMI = $(shell whoami)
 
 
 all:
@@ -9,4 +10,4 @@ create-image:
 	docker build -t csv-generator .
 
 run:
-	docker run --rm -v $(PWD):/app csv-generator
+	docker run --rm -v $(PWD):/app --user $(WHOAMI) --env USER=$(WHOAMI)  csv-generator
