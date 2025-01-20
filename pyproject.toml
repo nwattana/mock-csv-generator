@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "large-csv-generator"
+version = "0.1.0"
+description = ""
+authors = ["narin <narin.w@lexnetix.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+faker = "^33.3.1"
+pandas = "^2.2.3"
+openpyxl = "^3.1.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
