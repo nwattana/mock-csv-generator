@@ -1,6 +1,9 @@
 from faker import Faker
 import pandas as pd
 import os
+import sys
+
+arguments = sys.argv
 
 
 def create_output_dir():
@@ -11,13 +14,13 @@ def create_output_dir():
     return output_dir
 
 
-def create_csv(output_dir):
+def create_csv(output_dir, size=100):
     # current working directory
     csv_file = output_dir + "data.csv"
     fake = Faker()
     csv_columns = ["name", "age", "street", "city", "state", "zip", "lng", "lat", "ip"]
     data = []
-    for _ in range(10000):
+    for _ in range(size):
         data.append(
             [
                 fake.name(),
@@ -36,12 +39,12 @@ def create_csv(output_dir):
     print(f"CSV file {csv_file} created successfully.")
 
 
-def create_xlsx(output_dir):
+def create_xlsx(output_dir, size=100):
     xlsx_file = output_dir + "data.xlsx"
     fake = Faker()
     xlsx_columns = ["name", "age", "street", "city", "state", "zip", "lng", "lat", "ip"]
     data = []
-    for _ in range(10000):
+    for _ in range(size):
         data.append(
             [
                 fake.name(),
@@ -62,8 +65,26 @@ def create_xlsx(output_dir):
 
 def run():
     output_dir = create_output_dir()
-    create_csv(output_dir)
-    create_xlsx(output_dir)
+    if "-s" in arguments:
+        size_index = arguments.index("-s")
+        try:
+            size = arguments[size_index + 1]
+            size = int(size)
+            if size < 0:
+                raise ValueError("Size should be greater than 0")
+        except Exception as e:
+            print(f"Invalid size value. {e} considering default size 100")
+            size = 100
+
+    match arguments[1]:
+        case "--only-csv":
+            create_csv(output_dir, size)
+        case "--only-xlsx":
+            create_xlsx(output_dir, size)
+        case _:
+            create_csv(output_dir, size)
+            create_xlsx(output_dir, size)
+
 
 if __name__ == "__main__":
     run()
