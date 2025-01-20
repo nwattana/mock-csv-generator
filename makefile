@@ -1,5 +1,6 @@
 PWD = $(shell pwd)
-WHOAMI = $(shell whoami)
+GROUPID = $(shell id -g)
+USERID = $(shell id -u)
 
 
 all:
@@ -9,5 +10,9 @@ all:
 create-image:
 	docker build -t csv-generator .
 
+run-basic:
+	docker run --rm -v $(PWD):/app csv-generator
+
 run:
-	docker run --rm -v $(PWD):/app --user $(WHOAMI) --env USER=$(WHOAMI)  csv-generator
+	docker run --rm -v $(PWD):/app --user $(USERID):$(GROUPID) csv-generator
+	# sudo chown $(USER):$(USER) -R $(PWD)/output
